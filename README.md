@@ -14,24 +14,38 @@ Next, you'll need to install the package:
 npm install twitter-timeline-middleware
 ```
 
-And then configure and use the middleware in your app:
+Then configure the middleware:
 
 ```javascript
-var twitterTimeline = require('twitter-timeline-middleware');
+var TwitterTimelineMiddleware = require('twitter-timeline-middleware');
 var twitterCredentials = {
   consumerKey: 'abcdefg',
   consumerSecret: 'hijklmn',
   accessTokenKey: 'opqrst',
   accessTokenSecret: 'uvwxyz'
 };
+var twitterTimelineMiddleware = TwitterTimelineMiddleware(twitterCredentials);
+```
 
-app.use('/timeline/:screen_name', twitterTimeline(twitterCredentials));
+And finally, use it in your application:
+
+```javascript
+// in an express server
+app.get('/timeline/:screen_name', twitterTimelineMiddleware);
+
+// in a browsersync server
+var browserSyncOptions = {
+  middleware: [{
+    route: '/timeline/:screen_name',
+    handle: twitterTimelineMiddleware)
+  }]
+};
 ```
 
 ### Response
 
-```json
+```jsx
 {
-  "data": <Twitter Server Response>
+  "data": <TwitterServerResponse>
 }
 ```
